@@ -23,6 +23,8 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 const char* BASE_URL = "https://api-lock-service-1046300342556.us-central1.run.app";
 const char* API_KEY = "api123";
+const char* TEST_QRCODE = "SMARTLOCK_20250429193938";
+bool isQRMode = false;
 
 // ===== Keypad Setup =====
 const byte ROWS = 4;
@@ -197,32 +199,89 @@ void setup() {
 }
 
 // ===== Main Loop =====
+void verifyQR() {
+  HTTPClient http;
+  String url = String(BASE_URL) + "/verificar";
+  
+  displayMessage("Verifying", "QR Code...");
+  Serial.println("Verifying QR Code");
+  
+  http.begin(url);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("X-API-Key", API_KEY);
+
+  JsonDocument doc;
+  doc["entrada"] = TEST_QRCODE;
+  doc["tipo"] = "qr";
+  
+  String jsonString;
+  serializeJson(doc, jsonString);
+
+  int httpCode = http.POST(jsonString);
+  if (httpCode > 0) {
+    String response = http.getString();
+    Serial.println("Response: " + response);
+    
+    JsonDocument responseDoc;
+    DeserializationError error = deserializeJson(responseDoc, response);
+    
+    if (!error) {
+      bool authorized = responseDoc["autorizado"];
+      if (authorized) {
+        openDoor();
+      } else {
+        displayMessage("QR CODE", "DENIED");
+        Serial.println("Access denied");
+        delay(2000);
+      }
+    } else {
+      displayMessage("ERROR", "Invalid response");
+      Serial.println("Failed to parse response");
+    }
+  } else {
+    displayMessage("ERROR", "Connection failed");
+    Serial.println("Connection failed");
+  }
+  
+  http.end();
+}
+
 void loop() {
   char key = keypad.getKey();
   
   if (key) {
-    if (key >= '0' && key <= '9' && currentPin.length() < 5) {
-      currentPin += key;
-      displayMessage("PIN:", currentPin.c_str());
-      Serial.print("*");
-    }
-    else if (key == '*') {
+    if (key == '*') {
+      isQRMode = !isQRMode;
       currentPin = "";
-      displayMessage("PIN CLEARED");
-      Serial.println("\nPIN cleared");
-      delay(1000);
-      displayMessage("Ready", "Enter PIN");
+      if (isQRMode) {
+        displayMessage("QR MODE", "Press * verify");
+      } else {
+        displayMessage("PIN MODE", "Enter PIN");
+      }
     }
-    else if (key == '#' && currentPin.length() == 5) {
-      verifyPin(currentPin);
-      currentPin = "";
-      displayMessage("Ready", "Enter PIN");
+    else if (isQRMode && key == 'A') {
+      verifyQR();
+      isQRMode = false;
+      displayMessage("PIN MODE", "Enter PIN");
     }
-    else if (key == '#') {
-      displayMessage("ERROR", "PIN must be 5 digits");
-      Serial.println("\nPIN must be 5 digits");
-      delay(2000);
-      displayMessage("Ready", "Enter PIN");
+    else if (!isQRMode) {
+      // Original PIN handling code
+      if (key >= '0' && key <= '9' && currentPin.length() < 5) {
+        currentPin += key;
+        displayMessage("PIN:", currentPin.c_str());
+        Serial.print("*");
+      }
+      else if (key == '#' && currentPin.length() == 5) {
+        verifyPin(currentPin);
+        currentPin = "";
+        displayMessage("Ready", "Enter PIN");
+      }
+      else if (key == '#') {
+        displayMessage("ERROR", "PIN must be 5 digits");
+        Serial.println("\nPIN must be 5 digits");
+        delay(2000);
+        displayMessage("Ready", "Enter PIN");
+      }
     }
   }
   
