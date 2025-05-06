@@ -193,6 +193,10 @@ void openDoor() {
   doorOpen = false;
   displayMessage("DOOR", "CLOSED");
   Serial.println("Door closed");
+  delay(2000);
+
+  currentPin = "";  
+  handleKeypadInput('B');  
 }
 
 // In verifyAuth function
@@ -477,51 +481,60 @@ String generateAsterisks(int length) {
 
 void handleKeypadInput(char key) {
   Serial.println("\n=== Keypad Input: " + String(key) + " ===");
-  
-  if (key == 'A') {
-    displayMessage("Checking", "API Status...");
-    AuthStatus authStatus = checkAuthStatus();
-    if (authStatus.is2faActive && currentPin.length() == 0) {
-      Serial.println("Error: PIN required for 2FA before using A");
-      displayMessage("2FA Error", "Enter PIN first", "2FA is active");
-      delay(2000);
-      displayMessage("Enter PIN", "", "2FA Active");
-      return;
-    }
-    toggleServerMode();
-  } 
-  else if (key == 'B') {
-    returnToPinMode();
-  }
-  else if (!isQRMode) {
-    // Handle PIN input
-    if (key >= '0' && key <= '9' && currentPin.length() < 6) {
-      currentPin += key;
-      String asterisks = generateAsterisks(currentPin.length());
-      String keyMessage = "Key: ";
-      keyMessage += key;
-      Serial.println("PIN Input: " + asterisks + " (Key pressed: " + String(key) + ")");
-      displayMessage("Enter PIN", asterisks.c_str(), keyMessage.c_str());
-      delay(500); // Show the key briefly
-      displayMessage("Enter PIN", asterisks.c_str()); // Return to normal display
-    } 
-    else if (key == '#' && currentPin.length() > 0) {
-      Serial.println("Verifying PIN: " + String(currentPin.length()) + " digits");
-      displayMessage("Checking", "API Status...");
-      AuthStatus authStatus = checkAuthStatus();
-      
-      if (authStatus.is2faActive) {
-        displayMessage("PIN OK", "Press A for QR", "2FA Required");
-      } else {
-        verifyPin(currentPin);
-        currentPin = "";
+
+  switch (key) {
+    case 'A':
+      {
+        AuthStatus authStatus = checkAuthStatus(); // Only check when switching modes
+        if (authStatus.is2faActive && currentPin.length() == 0) {
+          Serial.println("Error: PIN required for 2FA before using A");
+          displayMessage("2FA Error", "Enter PIN first", "2FA is active");
+          delay(2000);
+          displayMessage("Enter PIN", "", "2FA Active");
+          return;
+        }
+        toggleServerMode();
       }
-    }
-    else if (key == '*') {
-      Serial.println("PIN Cleared");
-      currentPin = "";
-      displayMessage("PIN Cleared", "Enter PIN");
-    }
+      break;
+
+    case 'B':
+      returnToPinMode();  // returnToPinMode already checks auth status
+      break;
+
+    case '#':
+      if (!isQRMode && currentPin.length() > 0) {
+        Serial.println("Verifying PIN: " + String(currentPin.length()) + " digits");
+        displayMessage("Checking", "API Status...");
+        AuthStatus authStatus = checkAuthStatus(); // Only check when verifying PIN
+        if (authStatus.is2faActive) {
+          displayMessage("PIN OK", "Press A for QR", "2FA Required");
+        } else {
+          verifyPin(currentPin);
+          currentPin = "";
+        }
+      }
+      break;
+
+    case '*':
+      if (!isQRMode) {
+        Serial.println("PIN Cleared");
+        currentPin = "";
+        displayMessage("PIN Cleared", "Enter PIN");
+      }
+      break;
+
+    default:
+      if (!isQRMode && key >= '0' && key <= '9' && currentPin.length() < 6) {
+        currentPin += key;
+        String asterisks = generateAsterisks(currentPin.length());
+        String keyMessage = "Key: ";
+        keyMessage += key;
+        Serial.println("PIN Input: " + asterisks + " (Key pressed: " + String(key) + ")");
+        displayMessage("Enter PIN", asterisks.c_str(), keyMessage.c_str());
+        delay(500);
+        displayMessage("Enter PIN", asterisks.c_str());
+      }
+      break;
   }
 }
 
