@@ -17,40 +17,6 @@ const char* ssid = "Wokwi-GUEST";
 const char* password = "";
 const char* LOCALHOST_URL = "http://localhost:8180";
 
-// Certificado CA para conexões HTTPS
-const char* root_ca PROGMEM = \
-"-----BEGIN CERTIFICATE-----\n" \
-"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\n" \
-"bP6MvPJwNQzcmRk13NfIRmPVNnGuV/u3gm3c\n" \
-"-----END CERTIFICATE-----\n";
-
 // ===== Configurações de Hardware =====
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -88,9 +54,10 @@ bool doorOpen = false;
 bool isQRMode = false;
 bool serverRunning = false;
 
-// ===== Protótipos de Função =====
+// ===== Funções =====
 void connectToWiFi();
 void displayMessage(const char* line1, const char* line2 = "", const char* line3 = "");
+void displayLoading(const char* message);
 void openDoor();
 void verify2FA(String pin, String qrcode);
 void verifyPin(String pin);
@@ -107,6 +74,13 @@ void toggleServerMode();
 void returnToPinMode();
 
 // ===== Implementação das Funções =====
+String generateAsterisks(int length) {
+  String result = "";
+  for (int i = 0; i < length; i++) {
+    result += "*";
+  }
+  return result;
+}
 
 AuthStatus checkAuthStatus() {
   Serial.println("\n=== Checking Auth Status ===");
@@ -114,7 +88,7 @@ AuthStatus checkAuthStatus() {
   String url = String(BASE_URL) + "/2factor/status";
   
   Serial.println("Requesting: " + url);
-  http.begin(url, root_ca);
+  http.begin(url);
   http.addHeader("X-API-Key", API_KEY);
   
   AuthStatus status = {false};
@@ -152,55 +126,128 @@ AuthStatus checkAuthStatus() {
 }
 
 void connectToWiFi() {
-  Serial.println("Conectando ao Wi-Fi...");
+  displayMessage("== WiFi ==", "Connecting to", ssid);
+  Serial.println("\n=== WiFi Connection ===");
+  Serial.println("Connecting to network: " + String(ssid));
   WiFi.begin(ssid, password);
 
+  int attempts = 0;
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Tentando conectar...");
+    delay(500);
+    displayLoading("Connecting to WiFi...");
+    Serial.println("Connection attempt " + String(attempts + 1) + " of 20");
+    attempts++;
+    
+    if(attempts > 20) { 
+      displayMessage("= ERROR =", "WiFi Connection", "Failed!");
+      Serial.println("=== Connection Failed ===");
+      Serial.println("Maximum attempts reached");
+      delay(2000);
+      ESP.restart();
+    }
   }
 
-  Serial.println("Conectado ao Wi-Fi!");
-  Serial.print("Endereço IP: ");
-  Serial.println(WiFi.localIP());
+  String ipAddress = "IP: " + WiFi.localIP().toString();
+  displayMessage("== WiFi ==", "Connected!", ipAddress.c_str());
+  Serial.println("=== Connection Success ===");
+  Serial.println("IP Address: " + WiFi.localIP().toString());
+  delay(2000);
 }
 
 void displayMessage(const char* line1, const char* line2, const char* line3) {
   display.clearDisplay();
   
+  int16_t x1, y1;
+  uint16_t w, h;
+  
+  // Draw top border
+  display.drawLine(0, 0, SCREEN_WIDTH-1, 0, SSD1306_WHITE);
+  
+  // Title with larger text
   display.setTextSize(2);
-  display.setCursor(0, 0);
+  display.getTextBounds(line1, 0, 0, &x1, &y1, &w, &h);
+  display.setCursor((SCREEN_WIDTH - w) / 2, 4);  
   display.println(line1);
   
-  display.setTextSize(1);
-  display.setCursor(0, 20);
-  display.println(line2);
+  // Draw separator line
+  display.drawLine(0, 19, SCREEN_WIDTH-1, 19, SSD1306_WHITE);
   
-  if (line3[0] != '\0') {
-    display.setCursor(0, 32); 
+  // Smaller text for additional lines
+  display.setTextSize(1);
+  if (strlen(line2) > 0) {
+    display.getTextBounds(line2, 0, 0, &x1, &y1, &w, &h);
+    display.setCursor((SCREEN_WIDTH - w) / 2, 24);  
+    display.println(line2);
+  }
+  
+  if (strlen(line3) > 0) {
+    display.getTextBounds(line3, 0, 0, &x1, &y1, &w, &h);
+    display.setCursor((SCREEN_WIDTH - w) / 2, 36);  
     display.println(line3);
   }
+  
+  // Draw bottom border
+  display.drawLine(0, SCREEN_HEIGHT-1, SCREEN_WIDTH-1, SCREEN_HEIGHT-1, SSD1306_WHITE);
   
   display.display();
 }
 
-void openDoor() {
-  myServo.write(180);  // Open position
-  doorOpen = true;
-  displayMessage("DOOR", "OPEN", "Closing in 5s");
-  Serial.println("Door opened");
-  delay(5000);
-  myServo.write(0);    // Closed position
-  doorOpen = false;
-  displayMessage("DOOR", "CLOSED");
-  Serial.println("Door closed");
-  delay(2000);
-
-  currentPin = "";  
-  handleKeypadInput('B');  
+void displayLoading(const char* message) {
+  static int position = 0;
+  const int centerX = SCREEN_WIDTH / 2;
+  const int centerY = 45;  
+  const int radius = 8;    
+  const int numDots = 12;  
+  
+  display.clearDisplay();
+  
+  // Draw top border
+  display.drawLine(0, 0, SCREEN_WIDTH-1, 0, SSD1306_WHITE);
+  
+  // Title with larger text
+  display.setTextSize(2);
+  int16_t x1, y1;
+  uint16_t w, h;
+  const char* title = "= AUTH ="; 
+  display.getTextBounds(title, 0, 0, &x1, &y1, &w, &h);
+  display.setCursor((SCREEN_WIDTH - w) / 2, 4);
+  display.println(title);
+  
+  // Draw separator line
+  display.drawLine(0, 19, SCREEN_WIDTH-1, 19, SSD1306_WHITE);
+  
+  // Message in middle section
+  display.setTextSize(1);
+  display.getTextBounds(message, 0, 0, &x1, &y1, &w, &h);
+  display.setCursor((SCREEN_WIDTH - w) / 2, 24);
+  display.println(message);
+  
+  // Loading animation in bottom section
+  for(int i = 0; i < numDots; i++) {
+    int angle = (i * (360 / numDots) + position) % 360;
+    float rad = angle * PI / 180;
+    int x1 = centerX + cos(rad) * radius;
+    int y1 = centerY + sin(rad) * radius;
+    
+    int dotSize = (i == position / (360 / numDots) % numDots) ? 2 : 1;
+    
+    if (dotSize == 2) {
+      display.fillCircle(x1, y1, dotSize, SSD1306_WHITE);
+    } else {
+      display.drawPixel(x1, y1, SSD1306_WHITE);
+    }
+  }
+  
+  // Draw bottom border
+  display.drawLine(0, SCREEN_HEIGHT-1, SCREEN_WIDTH-1, SCREEN_HEIGHT-1, SSD1306_WHITE);
+  
+  display.display();
+  position = (position + 15) % 360;
+  delay(50);
 }
 
-// In verifyAuth function
+
+// Lógica de verificação
 void verifyAuth(const String& endpoint, const JsonDocument& payload) {
   HTTPClient http;
   String url = String(BASE_URL) + endpoint;
@@ -210,13 +257,16 @@ void verifyAuth(const String& endpoint, const JsonDocument& payload) {
   serializeJson(payload, jsonString);
   Serial.println("Request Body: " + jsonString);
   
-  displayMessage("Verifying", "Please wait...");
-  
-  http.begin(url, root_ca);  // Using the new root certificate
+  http.begin(url);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("X-API-Key", API_KEY);
 
   int httpCode = http.POST(jsonString);
+  
+  while (http.getSize() <= 0) { 
+    displayLoading("Verifying credentials...");
+  }
+
   processVerificationResponse(httpCode, &http);
   http.end();
 }
@@ -245,6 +295,7 @@ void verifyQR(String qrcode) {
 void processVerificationResponse(int httpCode, HTTPClient* http) {
   if (httpCode > 0) {
     String response = http->getString();
+    Serial.println("\n=== Verification Response ===");
     Serial.println("Response: " + response);
     
     JsonDocument responseDoc;
@@ -253,48 +304,71 @@ void processVerificationResponse(int httpCode, HTTPClient* http) {
     if (!error) {
       bool authorized = responseDoc["autorizado"];
       if (authorized) {
+        Serial.println("=== Access Granted ===");
         openDoor();
       } else {
-        displayMessage("ACCESS", "DENIED");
-        Serial.println("Access denied");
-        delay(2000);
+        unsigned long startTime = millis();
+        while (millis() - startTime < 9000) {
+          displayLoading("DENIED!");
+        }
+        Serial.println("=== Access Denied ===");
+        Serial.println("Invalid credentials");
+        returnToPinMode();
       }
     } else {
-      displayMessage("ERROR", "Invalid response");
-      Serial.println("Failed to parse response");
+      unsigned long startTime = millis();
+      while (millis() - startTime < 9000) {
+        displayLoading("Invalid Response!");
+      }
+      Serial.println("=== Parse Error ===");
+      Serial.println("Failed to parse API response");
+      returnToPinMode();
     }
   } else {
-    displayMessage("ERROR", "Connection failed");
-    Serial.println("Connection failed");
+    unsigned long startTime = millis();
+    while (millis() - startTime < 15000) {
+      displayLoading("Connection Lost!");
+    }
+    Serial.println("=== Connection Error ===");
+    Serial.println("HTTP Code: " + String(httpCode));
+    returnToPinMode();
   }
 }
 
-// In checkApiStatus function
+
+// Verifica o status da API
 bool checkApiStatus() {
+  Serial.println("\n=== API Status Check ===");
   HTTPClient http;
   String url = String(BASE_URL) + "/status";
   
-  displayMessage("Checking", "API Status...");
-  
-  http.begin(url, root_ca);  // Using the new root certificate
+  http.begin(url); 
   http.addHeader("X-API-Key", API_KEY);
   
   int httpCode = http.GET();
+  Serial.println("Checking endpoint: " + url);
+  
+  while (http.getSize() <= 0) {
+    displayLoading("Checking status...");
+  }
+  
   if (httpCode == 200) {
     String response = http.getString();
     JsonDocument statusDoc;
     DeserializationError error = deserializeJson(statusDoc, response);
     
     if (!error && statusDoc["status"] == "online") {
-      displayMessage("API Online", "Ready!");
-      Serial.println("API is online");
+      displayMessage("== API ==", "Online & Ready!", "System active");
+      Serial.println("=== API Online ===");
+      Serial.println("Status: Ready for operations");
       http.end();
       return true;
     }
   }
   
-  displayMessage("API Offline", "Press 1 to retry");
-  Serial.println("API Status check failed: " + String(httpCode));
+  displayMessage("== API ==", "Offline", "Press 1 to retry");
+  Serial.println("=== API Error ===");
+  Serial.println("Status Code: " + String(httpCode));
   http.end();
   return false;
 }
@@ -304,14 +378,81 @@ void toggleServerMode() {
     server.begin();
     serverRunning = true;
     isQRMode = true;
-    displayMessage("QR Mode", WiFi.localIP().toString().c_str(), "Scan at:");
-    Serial.println("Server started for QR reading");
+    displayMessage("=== QR ===", "Scan at:", WiFi.localIP().toString().c_str());
+    Serial.println("\n=== QR Server Started ===");
+    Serial.println("IP: " + WiFi.localIP().toString());
   } else {
     server.stop();
     serverRunning = false;
     isQRMode = false;
-    displayMessage("Server OFF", "Press A to start");
-    Serial.println("Server stopped");
+    displayMessage("=== QR ===", "Server Stopped", "Press A to start");
+    Serial.println("\n=== QR Server Stopped ===");
+  }
+}
+
+
+// Lógica do Teclado
+void handleKeypadInput(char key) {
+  Serial.println("\n=== Keypad Input: " + String(key) + " ===");
+
+  switch (key) {
+    case 'A':
+      {
+        displayLoading("Checking 2FA ...");
+        AuthStatus authStatus = checkAuthStatus();
+        if (authStatus.is2faActive && currentPin.length() == 0) {
+          Serial.println("=== 2FA Error ===\nPIN required before QR scan");
+          displayMessage("== 2FA ==", "Enter PIN first", "Then scan QR");
+          delay(2000);
+          displayMessage("== PIN ==", "Enter code", "2FA Active");
+          return;
+        }
+        toggleServerMode();
+      }
+      break;
+
+    case 'B':
+      returnToPinMode();
+      break;
+
+    case '#':
+      if (!isQRMode && currentPin.length() > 0) {
+        Serial.println("=== PIN Verification ===\nLength: " + String(currentPin.length()));
+        displayLoading("Checking 2FA ...");
+        AuthStatus authStatus = checkAuthStatus();
+        if (authStatus.is2faActive) {
+          displayMessage("== 2FA ==", "PIN Accepted", "Scan QR now");
+          // Store PIN and start QR server
+          server.begin();
+          serverRunning = true;
+          isQRMode = true;
+          delay(1000);
+          displayMessage("=== QR ===", "Scan at:", WiFi.localIP().toString().c_str());
+          Serial.println("\n=== QR Server Started ===");
+          Serial.println("IP: " + WiFi.localIP().toString());
+        } else {
+          verifyPin(currentPin);
+          currentPin = "";
+        }
+      }
+      break;
+
+    case '*':
+      if (!isQRMode) {
+        Serial.println("=== PIN Reset ===");
+        currentPin = "";
+        displayMessage("== PIN ==", "Code Cleared", "Enter new PIN");
+      }
+      break;
+
+    default:
+      if (!isQRMode && key >= '0' && key <= '9' && currentPin.length() < 6) {
+        currentPin += key;
+        String asterisks = generateAsterisks(currentPin.length());
+        Serial.println("=== PIN Input ===\nLength: " + String(currentPin.length()));
+        displayMessage("== PIN ==", asterisks.c_str(), "Enter code");
+      }
+      break;
   }
 }
 
@@ -324,12 +465,31 @@ void returnToPinMode() {
   currentPin = "";
   AuthStatus authStatus = checkAuthStatus();
   if (authStatus.is2faActive) {
-    displayMessage("2FA Active", "Enter PIN first");
+    displayMessage("== 2FA ==", "Enter PIN first", "Then scan QR");
   } else {
-    displayMessage("PIN Mode", "Enter PIN");
+    displayMessage("== PIN ==", "Enter code", "Or press A for QR");
   }
 }
 
+void openDoor() {
+  myServo.write(180);
+  doorOpen = true;
+  displayMessage("= DOOR =", "ACCESS GRANTED", "Closing in 5s");
+  Serial.println("\n=== Door Control ===\nStatus: Opening");
+  delay(5000);
+  
+  myServo.write(0);
+  doorOpen = false;
+  displayMessage("= DOOR =", "Secured", "Thank you!");
+  Serial.println("Status: Closed and locked");
+  delay(2000);
+
+  currentPin = "";
+  handleKeypadInput('B');
+}
+
+
+// Função para lidar com a página inicial
 void handleRoot() {
   server.send(200, "text/html", WEBPAGE_HTML);
 }
@@ -343,7 +503,7 @@ void handleQR() {
     if (!error) {
       String qrcode = doc["qrcode"].as<String>();
       if (qrcode.length() > 0) {
-        Serial.println("QRCode received: " + qrcode);
+        Serial.println("\n=== QR Code Received ===");
         AuthStatus authStatus = checkAuthStatus();
         
         if (authStatus.is2faActive) {
@@ -351,9 +511,9 @@ void handleQR() {
             verify2FA(currentPin, qrcode);
             currentPin = "";
             returnToPinMode();
-            displayMessage("Verification", "Complete");
+            displayMessage("== 2FA ==", "Verification", "Complete!");
           } else {
-            displayMessage("Error", "Enter PIN first", "Press B for PIN");
+            displayMessage("= ERROR =", "PIN Required", "Press B for PIN");
           }
         } else {
           verifyQR(qrcode);
@@ -365,85 +525,20 @@ void handleQR() {
   server.send(200, "application/json", "{\"status\":\"ok\"}");
 }
 
-String generateAsterisks(int length) {
-  String result = "";
-  for (int i = 0; i < length; i++) {
-    result += "*";
-  }
-  return result;
-}
-
-void handleKeypadInput(char key) {
-  Serial.println("\n=== Keypad Input: " + String(key) + " ===");
-
-  switch (key) {
-    case 'A':
-      {
-        AuthStatus authStatus = checkAuthStatus(); // Only check when switching modes
-        if (authStatus.is2faActive && currentPin.length() == 0) {
-          Serial.println("Error: PIN required for 2FA before using A");
-          displayMessage("2FA Error", "Enter PIN first", "2FA is active");
-          delay(2000);
-          displayMessage("Enter PIN", "", "2FA Active");
-          return;
-        }
-        toggleServerMode();
-      }
-      break;
-
-    case 'B':
-      returnToPinMode();  // returnToPinMode already checks auth status
-      break;
-
-    case '#':
-      if (!isQRMode && currentPin.length() > 0) {
-        Serial.println("Verifying PIN: " + String(currentPin.length()) + " digits");
-        displayMessage("Checking", "API Status...");
-        AuthStatus authStatus = checkAuthStatus(); // Only check when verifying PIN
-        if (authStatus.is2faActive) {
-          displayMessage("PIN OK", "Press A for QR", "2FA Required");
-        } else {
-          verifyPin(currentPin);
-          currentPin = "";
-        }
-      }
-      break;
-
-    case '*':
-      if (!isQRMode) {
-        Serial.println("PIN Cleared");
-        currentPin = "";
-        displayMessage("PIN Cleared", "Enter PIN");
-      }
-      break;
-
-    default:
-      if (!isQRMode && key >= '0' && key <= '9' && currentPin.length() < 6) {
-        currentPin += key;
-        String asterisks = generateAsterisks(currentPin.length());
-        String keyMessage = "Key: ";
-        keyMessage += key;
-        Serial.println("PIN Input: " + asterisks + " (Key pressed: " + String(key) + ")");
-        displayMessage("Enter PIN", asterisks.c_str(), keyMessage.c_str());
-        delay(500);
-        displayMessage("Enter PIN", asterisks.c_str());
-      }
-      break;
-  }
-}
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Iniciando projeto ESP32-S3...");
+  Serial.println("\n=== ESP32 Lock System Starting ===");
 
   // Inicializar o display
   Wire.begin(I2C_SDA, I2C_SCL);
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("Falha na inicialização do display SSD1306"));
+    Serial.println("=== Display Error ===");
     while (true);
   }
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);
+  displayMessage("= LOCK =", "Starting up", "Please wait");
 
   // Conectar ao Wi-Fi
   connectToWiFi();
@@ -451,15 +546,14 @@ void setup() {
   // Verificar status da API até que esteja online
   bool apiReady = false;
   while (!apiReady) {
-    Serial.println("Verificando status da API...");
+    Serial.println("\n=== Checking API Status ===");
     apiReady = checkApiStatus();
     if (!apiReady) {
-      Serial.println("API Offline. Pressione '1' para tentar novamente.");
+      Serial.println("=== API Offline ===");
+      displayMessage("= API =", "Offline", "Press 1 retry");
       while (true) {
         char key = keypad.getKey();
-        if (key == '1') {
-          break;
-        }
+        if (key == '1') break;
         delay(100);
       }
     }
@@ -471,15 +565,18 @@ void setup() {
 
   // Inicializar o servo
   myServo.attach(servoPin);
-  myServo.write(0);  // Começar na posição fechada
+  myServo.write(0);
+  Serial.println("=== Servo Initialized ===");
 
-  // Verificar status inicial de autenticação e exibir mensagem apropriada
+  // Verificar status inicial de autenticação
   AuthStatus authStatus = checkAuthStatus();
   if (authStatus.is2faActive) {
-    displayMessage("2FA Active", "Enter PIN first");
+    displayMessage("= 2FA =", "Enter PIN", "Then scan QR");
   } else {
-    displayMessage("Ready", "Enter PIN or", "Press A for QR");
+    displayMessage("= LOCK =", "Enter PIN or", "Press A: QR");
   }
+  
+  Serial.println("=== System Ready ===");
 }
 
 void loop() {
