@@ -13,16 +13,16 @@
 // ===== Configurações Constantes =====
 const char* BASE_URL = "https://api-lock-service-1046300342556.us-central1.run.app";
 const char* API_KEY = "api123";
-const char* ssid = "Wokwi-GUEST";
-const char* password = "";
+const char* ssid = "pinto";
+const char* password = "pintopinto";
 const char* LOCALHOST_URL = "http://localhost:8180";
 
 // ===== Configurações de Hardware =====
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 #define OLED_RESET -1
-#define I2C_SDA 17
-#define I2C_SCL 18
+#define I2C_SDA 18
+#define I2C_SCL 17
 
 const byte ROWS = 4;
 const byte COLS = 4;
@@ -33,7 +33,7 @@ char keys[ROWS][COLS] = {
   {'*', '0', '#', 'D'}
 };
 byte rowPins[ROWS] = {11, 12, 13, 14};
-byte colPins[COLS] = {6, 7, 8, 9};
+byte colPins[COLS] = {6, 7, 21, 47}; 
 
 const int servoPin = 10;
 const int WEB_SERVER_PORT = 80;
