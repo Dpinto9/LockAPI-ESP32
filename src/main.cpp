@@ -10,13 +10,6 @@
 #include <WebServer.h>
 #include <Index.h>
 
-// ===== Configurações Constantes =====
-const char* BASE_URL = "https://api-lock-service-1046300342556.us-central1.run.app";
-const char* API_KEY = "api123";
-const char* ssid = "pinto";
-const char* password = "pintopinto";
-const char* LOCALHOST_URL = "http://localhost:8180";
-
 // ===== Configurações de Hardware =====
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
