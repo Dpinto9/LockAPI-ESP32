@@ -17,7 +17,13 @@
       "left": -32.8,
       "attrs": {}
     },
-    { "type": "wokwi-servo", "id": "servo1", "top": 228.4, "left": 403.2, "attrs": {} },
+    {
+      "type": "wokwi-servo",
+      "id": "servo1",
+      "top": 228.4,
+      "left": 403.2,
+      "attrs": {}
+    },
     {
       "type": "board-ssd1306",
       "id": "oled1",
@@ -31,19 +37,19 @@
     [ "esp:RX", "$serialMonitor:TX", "", [] ],
     [ "keypad2:C1", "esp:6", "green", [ "v0" ] ],
     [ "keypad2:C2", "esp:7", "green", [ "v0" ] ],
-    [ "keypad2:C3", "esp:8", "green", [ "v0" ] ],
-    [ "keypad2:C4", "esp:9", "green", [ "v0" ] ],
+    [ "keypad2:C3", "esp:21", "green", [ "v0" ] ],
+    [ "keypad2:C4", "esp:47", "green", [ "v0" ] ],
+    [ "keypad2:R1", "esp:11", "green", [ "v0" ] ],
+    [ "keypad2:R2", "esp:12", "green", [ "v0" ] ],
+    [ "keypad2:R3", "esp:13", "green", [ "v0" ] ],
+    [ "keypad2:R4", "esp:14", "green", [ "v0" ] ],
     [ "servo1:GND", "esp:GND.2", "black", [ "h-115.2", "v-57.6" ] ],
     [ "esp:5V", "servo1:V+", "red", [ "h124.75", "v-124.9" ] ],
     [ "esp:10", "servo1:PWM", "green", [ "h153.55", "v-67.4" ] ],
     [ "esp:GND.4", "oled1:GND", "black", [ "h48", "v-307.2" ] ],
     [ "esp:3V3.1", "oled1:VCC", "green", [ "v0" ] ],
-    [ "oled1:SCL", "esp:18", "green", [ "v-19.2", "h-220.5", "v220.8" ] ],
-    [ "esp:17", "oled1:SDA", "green", [ "h-9.65", "v-220.8", "h220.73" ] ],
-    [ "keypad2:R1", "esp:11", "green", [ "v0" ] ],
-    [ "keypad2:R2", "esp:12", "green", [ "v0" ] ],
-    [ "keypad2:R3", "esp:13", "green", [ "v0" ] ],
-    [ "keypad2:R4", "esp:14", "green", [ "v0" ] ]
+    [ "oled1:SCL", "esp:17", "green", [ "v-19.2", "h-220.5", "v220.8" ] ],
+    [ "esp:18", "oled1:SDA", "green", [ "h-9.65", "v-220.8", "h220.73" ] ]
   ],
   "dependencies": {}
 }
